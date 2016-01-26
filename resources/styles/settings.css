@@ -96,6 +96,15 @@ body.home #colorsets .meta span {
   top: 0;
 }
 
+#settings-update-check {
+  margin: 0 auto;
+  display: block;
+  top: 0.4em;
+  left: 45%;
+  position: absolute;
+  height: 2em;
+}
+
 #settings div.buttons button {
   float: right;
   margin-left: 1em;
