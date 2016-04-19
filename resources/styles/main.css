@@ -705,8 +705,8 @@ body.home #remoteprint-mask:before {
 /* Height Calibrator Mini Window */
 #calibrator {
   position: absolute;
-  right: 20px;
-  top: -165px;
+  right: 12em;
+  top: -200px;
   background-color: rgba(166, 233, 230, 0.9);
   border-radius: 1em;
   border-top-right-radius: 0;
@@ -714,26 +714,8 @@ body.home #remoteprint-mask:before {
   transition: top 0.6s;
   overflow: hidden;
   z-index: 6;
-}
-
-#calibrator, #calibrator .step {
-  width: 400px;
-  height: 200px;
-}
-
-#calibrator .wrapper {
-  width: 1200px;
-  height: 200px;
-  position: absolute;
-  top:0;
-  left: 0;
-  transition: left 0.5s;
-}
-
-#calibrator .step {
-  float: left;
-  padding: 0.5em 1em;
-  box-sizing: border-box;
+  width: 11em;
+  height: 13.5em;
 }
 
 #calibrator h2 {
@@ -745,12 +727,21 @@ body.home #remoteprint-mask:before {
   font-weight: normal;
 }
 
-#calibrator button.back {
-  float: left;
+#calibrator #buttons .normal {
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+  border-radius: 7px;
+  font-size: 1em;
+  color: #FFF;
+  margin-top: 0.3em;
+  padding: 0.2em 0.4em;
+  background: linear-gradient(to bottom, #3093c7, #1c5a85);
+  width: 9em;
 }
 
-#calibrator button.next {
-  float: right;
+fieldset#buttons {
+  border: 0px rgba(255,255,255,0);
+  padding: 1em;
+  padding-top: 0.25em;
 }
 
 #calibrator button.done {

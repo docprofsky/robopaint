@@ -323,35 +323,59 @@ function bindMainControls() {
     }
   });
 
-  var stepIndex = 0;
+  var bufferPaused = false;
+  var botPenDown = false;
+
+  $(robopaint).on('socketIOComplete', function () {
+    robopaint.socket.on('buffer update', function (e) {
+      if (e.hasOwnProperty('bufferPaused')) {
+        bufferPaused = e.bufferPaused;
+        $('#pause').text(i18n.t('common.action.' + (bufferPaused ? 'resume' : 'pause')));
+      }
+    });
+
+    robopaint.socket.on('pen update', function (botPen) {
+      var actualPen = $.extend({}, botPen);
+
+      var key = 'common.action.brush.raise';
+      botPenDown = true;
+      if (actualPen.state === "up" || actualPen.state === 0){
+        key = 'common.action.brush.lower';
+        botPenDown = false;
+      }
+      $('#pen').text(i18n.t(key));
+    });
+  });
+
   $('#calibrator button').click(function(){
-    var goNext = $(this).is('.next');
-
-    if (!goNext) stepIndex--;
-    if (goNext) stepIndex++;
-
-    switch(stepIndex) {
-      case 0:
+    switch (this.id) {
+      case "pause":
+        if (bufferPaused) {
+          cncserver.cmd.run('resume');
+        } else {
+          cncserver.cmd.run('pause');
+        }
         break;
-      case 1:
-        cncserver.cmd.run([
-          'park',
-          ['move', {x:0, y:0}],
-          'down',
-          'unlock',
-          'zero'
-        ], true);
+      case "clear":
+        cncserver.cmd.run('clear');
         break;
-      case 2:
-        cncserver.cmd.run('up');
+      case "pen":
+        if (botPenDown) {
+          cncserver.cmd.run('up', bufferPaused);
+        } else {
+          cncserver.cmd.run('down', bufferPaused);
+        }
         break;
-      case 3:
-        stepIndex = 0;
+      case "park":
+        cncserver.cmd.run('park', bufferPaused);
+        break;
+      case "disable":
+        cncserver.cmd.run('disable', bufferPaused);
+        break;
+      case "close":
         $('#bar-calibrate').click();
         break;
     }
-
-    $('#calibrator .wrapper').css('left', -(stepIndex * 400));
   });
 
   // Bind toolbar modal links =======================
